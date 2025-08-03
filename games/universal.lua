@@ -844,7 +844,7 @@ run(function()
 		return num
 	end
 	
-	AimAssist = vape.Categories.Combat:CreateModule({
+	AimAssist = vape.Categories.战斗:CreateModule({
 		Name = '自动瞄准',
 		Function = function(callback)
 			if CircleObject then
@@ -1005,7 +1005,7 @@ run(function()
 	local Mode
 	local CPS
 	
-	AutoClicker = vape.Categories.Combat:CreateModule({
+	AutoClicker = vape.Categories.战斗:CreateModule({
 		Name = '自动点击器',
 		Function = function(callback)
 			if callback then
@@ -1053,7 +1053,7 @@ run(function()
 	Overlay.FilterType = Enum.RaycastFilterType.Include
 	local modified = {}
 	
-	Reach = vape.Categories.Combat:CreateModule({
+	Reach = vape.Categories.战斗:CreateModule({
 		Name = '达到',
 		Function = function(callback)
 			if callback then
@@ -1230,7 +1230,7 @@ run(function()
 	Hooks.FindPartOnRay = Hooks.FindPartOnRayWithIgnoreList
 	Hooks.ViewportPointToRay = Hooks.ScreenPointToRay
 
-	SilentAim = vape.Categories.Combat:CreateModule({
+	SilentAim = vape.Categories.战斗:CreateModule({
 		Name = 'SilentAim',
 		Function = function(callback)
 			if CircleObject then
@@ -1536,7 +1536,7 @@ run(function()
 		end
 	end
 	
-	TriggerBot = vape.Categories.Combat:CreateModule({
+	TriggerBot = vape.Categories.战斗:CreateModule({
 		Name = 'TriggerBot',
 		Function = function(callback)
 			if callback then
