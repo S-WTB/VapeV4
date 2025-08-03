@@ -125,10 +125,10 @@ local function getPickaxe()
 end
 
 local function isFriend(plr, recolor)
-	if vape.Categories.Friends.Options['Use friends'].Enabled then
+	if vape.Categories.Friends.Options['使用好友'].Enabled then
 		local friend = table.find(vape.Categories.Friends.ListEnabled, plr.Name) and true
 		if recolor then
-			friend = friend and vape.Categories.Friends.Options['Recolor visuals'].Enabled
+			friend = friend and vape.Categories.Friends.Options['重新着色视觉效果'].Enabled
 		end
 		return friend
 	end
@@ -263,9 +263,9 @@ run(function()
 
 	entitylib.getEntityColor = function(ent)
 		ent = ent.Player
-		if not (ent and vape.Categories.Main.Options['Use team color'].Enabled) then return end
+		if not (ent and vape.Categories.Main.Options['使用队伍颜色'].Enabled) then return end
 		if isFriend(ent, true) then
-			return Color3.fromHSV(vape.Categories.Friends.Options['Friends color'].Hue, vape.Categories.Friends.Options['Friends color'].Sat, vape.Categories.Friends.Options['Friends color'].Value)
+			return Color3.fromHSV(vape.Categories.Friends.Options['好友颜色'].Hue, vape.Categories.Friends.Options['好友颜色'].Sat, vape.Categories.Friends.Options['好友颜色'].Value)
 		end
 		return skywars.TeamController:getTeamColour(ent:GetAttribute('TeamId'))
 	end
@@ -319,10 +319,10 @@ run(function()
 		end
 	})
 
-	local kills = sessioninfo:AddItem('Kills')
-	local eggs = sessioninfo:AddItem('Eggs')
-	local wins = sessioninfo:AddItem('Wins')
-	local games = sessioninfo:AddItem('Games')
+	local kills = sessioninfo:AddItem('击杀')
+	local eggs = sessioninfo:AddItem('龙蛋')
+	local wins = sessioninfo:AddItem('胜利')
+	local games = sessioninfo:AddItem('游戏')
 
 	task.delay(1, function()
 		games:Increment()
@@ -434,7 +434,7 @@ run(function()
 	end
 	
 	AutoClicker = vape.Categories.Combat:CreateModule({
-		Name = 'AutoClicker',
+		Name = '自动连点器',
 		Function = function(callback)
 			if callback then
 				AutoClicker:Clean(inputService.InputBegan:Connect(function(input, gameProcessed)
@@ -450,24 +450,24 @@ run(function()
 				end))
 			end
 		end,
-		Tooltip = 'Hold attack button to automatically click'
+		Tooltip = '按住攻击键自动点击'
 	})
 	CPS = AutoClicker:CreateTwoSlider({
-		Name = 'CPS',
+		Name = '每秒点击',
 		Min = 1,
 		Max = 9,
 		DefaultMin = 9,
 		DefaultMax = 9
 	})
 	Blocks = AutoClicker:CreateToggle({
-		Name = 'Place Blocks',
+		Name = '放置方块',
 		Default = true,
 		Function = function(callback)
 			BlocksCPS.Object.Visible = callback
 		end
 	})
 	BlocksCPS = AutoClicker:CreateTwoSlider({
-		Name = 'Block CPS',
+		Name = '方块每秒点击',
 		Min = 1,
 		Max = 20,
 		DefaultMin = 9,
@@ -481,7 +481,7 @@ run(function()
 	local old
 	
 	Sprint = vape.Categories.Combat:CreateModule({
-		Name = 'Sprint',
+		Name = '冲刺',
 		Function = function(callback)
 			if callback then
 				old = skywars.SprintingController.disableSprinting
@@ -508,7 +508,7 @@ run(function()
 				skywars.SprintingController:disableSprinting()
 			end
 		end,
-		Tooltip = 'Sets your sprinting to true.'
+		Tooltip = '强制启用冲刺状态。'
 	})
 end)
 	
@@ -539,7 +539,7 @@ run(function()
 	end
 	
 	Velocity = vape.Categories.Combat:CreateModule({
-		Name = 'Velocity',
+		Name = '击退减免',
 		Function = function(callback)
 			if callback then
 				connection = getconnections(debug.getupvalue(debug.getupvalue(skywars.Remotes[remotes['PlayerVelocityController:onStart']].connect, 1).fireClient, 1).OnClientEvent)[1]
@@ -554,30 +554,30 @@ run(function()
 				connection = nil
 			end
 		end,
-		Tooltip = 'Reduces knockback taken'
+		Tooltip = '减少受到的击退效果'
 	})
 	Horizontal = Velocity:CreateSlider({
-		Name = 'Horizontal',
+		Name = '水平',
 		Min = 0,
 		Max = 100,
 		Default = 0,
 		Suffix = '%'
 	})
 	Vertical = Velocity:CreateSlider({
-		Name = 'Vertical',
+		Name = '垂直',
 		Min = 0,
 		Max = 100,
 		Default = 0,
 		Suffix = '%'
 	})
 	Chance = Velocity:CreateSlider({
-		Name = 'Chance',
+		Name = '几率',
 		Min = 0,
 		Max = 100,
 		Default = 100,
 		Suffix = '%'
 	})
-	Targeting = Velocity:CreateToggle({Name = 'Only when targeting'})
+	Targeting = Velocity:CreateToggle({Name = '仅当瞄准时'})
 end)
 	
 run(function()
@@ -598,7 +598,7 @@ run(function()
 	end
 	
 	AntiFall = vape.Categories.Blatant:CreateModule({
-		Name = 'AntiFall',
+		Name = '防掉落',
 		Function = function(callback)
 			if callback then
 				local pos, debounce = getLowGround(), tick()
@@ -627,17 +627,17 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = 'Help\'s you with your Parkinson\'s\nPrevents you from falling into the void.'
+		Tooltip = '防止你掉入虚空。'
 	})
 	Mode = AntiFall:CreateDropdown({
-		Name = 'Move Mode',
-		List = {'Velocity', 'Collide'},
+		Name = '移动模式',
+		List = {'速度', '碰撞'},
 		Function = function(val)
 			if part then
-				part.CanCollide = val == 'Collide'
+				part.CanCollide = val == '碰撞'
 			end
 		end,
-		Tooltip = 'Velocity - Launches you upward after touching\nCollide - Allows you to walk on the part'
+		Tooltip = '速度 - 接触后将你向上弹射\n碰撞 - 允许你在部件上行走'
 	})
 	local materials = {'ForceField'}
 	for _, v in Enum.Material:GetEnumItems() do
@@ -646,7 +646,7 @@ run(function()
 		end
 	end
 	Material = AntiFall:CreateDropdown({
-		Name = 'Material',
+		Name = '材质',
 		List = materials,
 		Function = function(val)
 			if part then 
@@ -655,7 +655,7 @@ run(function()
 		end
 	})
 	Color = AntiFall:CreateColorSlider({
-		Name = 'Color',
+		Name = '颜色',
 		DefaultOpacity = 0.5,
 		Function = function(h, s, v, o)
 			if part then
@@ -671,7 +671,7 @@ run(function()
 	local old
 	
 	InvMove = vape.Categories.Blatant:CreateModule({
-		Name = 'InvMove',
+		Name = '背包移动',
 		Function = function(callback)
 			if callback then
 				old = skywars.ScreenController.enableFocus
@@ -684,7 +684,7 @@ run(function()
 				old = nil
 			end
 		end,
-		Tooltip = 'Allows you to continuous movement in menus'
+		Tooltip = '允许你在菜单中移动'
 	})
 end)
 	
@@ -720,7 +720,7 @@ run(function()
 	end
 	
 	Killaura = vape.Categories.Blatant:CreateModule({
-		Name = 'Killaura',
+		Name = '杀戮光环',
 		Function = function(callback)
 			if callback then
 				if Animation.Enabled then
@@ -840,34 +840,34 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = 'Attack players around you\nwithout aiming at them.'
+		Tooltip = '自动攻击你周围的玩家\n无需瞄准。'
 	})
 	Targets = Killaura:CreateTargets({Players = true})
 	AttackRange = Killaura:CreateSlider({
-		Name = 'Attack range',
+		Name = '攻击范围',
 		Min = 1,
 		Max = 18,
 		Default = 18,
 		Suffix = function(val)
-			return val == 1 and 'stud' or 'studs'
+			return val == 1 and '格' or '格'
 		end
 	})
 	AngleCheck = Killaura:CreateSlider({
-		Name = 'Max angle',
+		Name = '最大角度',
 		Min = 1,
 		Max = 360,
 		Default = 360
 	})
 	Max = Killaura:CreateSlider({
-		Name = 'Max targets',
+		Name = '最大目标数',
 		Min = 1,
 		Max = 10,
 		Default = 10
 	})
-	Mouse = Killaura:CreateToggle({Name = 'Require mouse down'})
-	Swing = Killaura:CreateToggle({Name = 'No Swing'})
+	Mouse = Killaura:CreateToggle({Name = '需要按下鼠标'})
+	Swing = Killaura:CreateToggle({Name = '无挥动'})
 	Killaura:CreateToggle({
-		Name = 'Show target',
+		Name = '显示目标',
 		Function = function(callback)
 			BoxAttackColor.Object.Visible = callback
 			if callback then
@@ -890,13 +890,13 @@ run(function()
 		end
 	})
 	BoxAttackColor = Killaura:CreateColorSlider({
-		Name = 'Attack Color',
+		Name = '攻击颜色',
 		Darker = true,
 		DefaultOpacity = 0.5,
 		Visible = false
 	})
 	Killaura:CreateToggle({
-		Name = 'Target particles',
+		Name = '目标粒子效果',
 		Function = function(callback)
 			ParticleTexture.Object.Visible = callback
 			ParticleColor1.Object.Visible = callback
@@ -938,7 +938,7 @@ run(function()
 		end
 	})
 	ParticleTexture = Killaura:CreateTextBox({
-		Name = 'Texture',
+		Name = '纹理',
 		Default = 'rbxassetid://14736249347',
 		Function = function()
 			for _, v in Particles do
@@ -949,7 +949,7 @@ run(function()
 		Visible = false
 	})
 	ParticleColor1 = Killaura:CreateColorSlider({
-		Name = 'Color Begin',
+		Name = '起始颜色',
 		Function = function(hue, sat, val)
 			for _, v in Particles do
 				v.ParticleEmitter.Color = ColorSequence.new({
@@ -962,7 +962,7 @@ run(function()
 		Visible = false
 	})
 	ParticleColor2 = Killaura:CreateColorSlider({
-		Name = 'Color End',
+		Name = '结束颜色',
 		Function = function(hue, sat, val)
 			for _, v in Particles do
 				v.ParticleEmitter.Color = ColorSequence.new({
@@ -975,7 +975,7 @@ run(function()
 		Visible = false
 	})
 	ParticleSize = Killaura:CreateSlider({
-		Name = 'Size',
+		Name = '大小',
 		Min = 0,
 		Max = 1,
 		Default = 0.14,
@@ -989,7 +989,7 @@ run(function()
 		Visible = false
 	})
 	Animation = Killaura:CreateToggle({
-		Name = 'Custom Animation',
+		Name = '自定义动画',
 		Function = function(callback)
 			AnimationMode.Object.Visible = callback
 			AnimationTween.Object.Visible = callback
@@ -1005,13 +1005,13 @@ run(function()
 		table.insert(animnames, i)
 	end
 	AnimationMode = Killaura:CreateDropdown({
-		Name = 'Animation Mode',
+		Name = '动画模式',
 		List = animnames,
 		Darker = true,
 		Visible = false
 	})
 	AnimationSpeed = Killaura:CreateSlider({
-		Name = 'Animation Speed',
+		Name = '动画速度',
 		Min = 0,
 		Max = 2,
 		Default = 1,
@@ -1020,13 +1020,13 @@ run(function()
 		Visible = false
 	})
 	AnimationTween = Killaura:CreateToggle({
-		Name = 'No Tween',
+		Name = '无缓动',
 		Darker = true,
 		Visible = false
 	})
 	Limit = Killaura:CreateToggle({
-		Name = 'Limit to items',
-		Tooltip = 'Only attacks when the sword is held'
+		Name = '仅限手持物品',
+		Tooltip = '仅在手持剑时攻击'
 	})
 end)
 	
@@ -1035,7 +1035,7 @@ run(function()
 	local rayCheck = RaycastParams.new()
 	
 	NoFall = vape.Categories.Blatant:CreateModule({
-		Name = 'NoFall',
+		Name = '无掉落伤害',
 		Function = function(callback)
 			if callback then
 				repeat
@@ -1057,7 +1057,7 @@ run(function()
 				until not NoFall.Enabled
 			end
 		end,
-		Tooltip = 'Prevents taking fall damage.'
+		Tooltip = '防止受到掉落伤害。'
 	})
 end)
 	
@@ -1065,7 +1065,7 @@ run(function()
 	local old, old2
 	
 	vape.Categories.Blatant:CreateModule({
-		Name = 'NoSlowdown',
+		Name = '无减速',
 		Function = function(callback)
 			if callback then
 				old = skywars.HumanoidController.addSpeedModifier
@@ -1094,7 +1094,7 @@ run(function()
 				old2 = nil
 			end
 		end,
-		Tooltip = 'Prevents slowing down when using items.'
+		Tooltip = '防止使用物品时减速。'
 	})
 end)
 	
@@ -1130,7 +1130,7 @@ run(function()
 	end
 	
 	local ProjectileAimbot = vape.Categories.Blatant:CreateModule({
-		Name = 'ProjectileAimbot',
+		Name = '抛射物自瞄',
 		Function = function(callback)
 			if callback then 
 				old = hookfunction(skywars.CameraUtil.getCursorDirection, function(...)
@@ -1146,14 +1146,14 @@ run(function()
 				oldMobile = nil
 			end
 		end,
-		Tooltip = 'Silently adjusts your aim towards the enemy'
+		Tooltip = '静默地将你的准星调整向敌人'
 	})
 	TargetPart = ProjectileAimbot:CreateDropdown({
-		Name = 'Part',
-		List = {'RootPart', 'Head'}
+		Name = '部位',
+		List = {'躯干', '头部'}
 	})
 	FOV = ProjectileAimbot:CreateSlider({
-		Name = 'FOV',
+		Name = '视野范围',
 		Min = 1,
 		Max = 1000,
 		Default = 1000
@@ -1181,7 +1181,7 @@ run(function()
 	end
 	
 	ProjectileAura = vape.Categories.Blatant:CreateModule({
-		Name = 'ProjectileAura',
+		Name = '抛射物光环',
 		Function = function(callback)
 			if callback then
 				repeat
@@ -1216,23 +1216,23 @@ run(function()
 				until not ProjectileAura.Enabled
 			end
 		end,
-		Tooltip = 'Shoots people around you'
+		Tooltip = '自动向周围的人发射抛射物'
 	})
 	Targets = ProjectileAura:CreateTargets({
 		Players = true, 
 		Walls = true
 	})
 	List = ProjectileAura:CreateTextList({
-		Name = 'Projectiles',
+		Name = '抛射物',
 		Default = {'Arrow', 'Snowball', 'Capybara'}
 	})
 	Range = ProjectileAura:CreateSlider({
-		Name = 'Range',
+		Name = '范围',
 		Min = 1,
 		Max = 50,
 		Default = 50,
 		Suffix = function(val) 
-			return val == 1 and 'stud' or 'studs' 
+			return val == 1 and '格' or '格' 
 		end
 	})
 end)
@@ -1319,7 +1319,7 @@ run(function()
 	end
 	
 	Scaffold = vape.Categories.Utility:CreateModule({
-		Name = 'Scaffold',
+		Name = '自动搭路',
 		Function = function(callback)
 			if callback then
 				repeat
@@ -1358,26 +1358,26 @@ run(function()
 				until not Scaffold.Enabled
 			end
 		end,
-		Tooltip = 'Helps you make bridges/scaffold walk.'
+		Tooltip = '帮助你搭桥/自动行走。'
 	})
 	Expand = Scaffold:CreateSlider({
-		Name = 'Expand',
+		Name = '延伸',
 		Min = 1,
 		Max = 6
 	})
 	Tower = Scaffold:CreateToggle({
-		Name = 'Tower',
+		Name = '搭高',
 		Default = true
 	})
 	Downwards = Scaffold:CreateToggle({
-		Name = 'Downwards',
+		Name = '向下',
 		Default = true
 	})
 	Diagonal = Scaffold:CreateToggle({
-		Name = 'Diagonal',
+		Name = '对角线',
 		Default = true
 	})
-	LimitItem = Scaffold:CreateToggle({Name = 'Limit to items'})
+	LimitItem = Scaffold:CreateToggle({Name = '仅限手持物品'})
 end)
 	
 run(function()
@@ -1387,7 +1387,7 @@ run(function()
 	local Delay = {}
 	
 	ChestSteal = vape.Categories.World:CreateModule({
-		Name = 'ChestSteal',
+		Name = '自动搜刮',
 		Function = function(callback)
 			if callback then
 				local chests = collection('block:chest', ChestSteal)
@@ -1414,18 +1414,18 @@ run(function()
 				until not ChestSteal.Enabled
 			end
 		end,
-		Tooltip = 'Grabs items from near chests.'
+		Tooltip = '自动拾取附近箱子的物品。'
 	})
 	Range = ChestSteal:CreateSlider({
-		Name = 'Range',
+		Name = '范围',
 		Min = 0,
 		Max = 10,
 		Default = 10,
 		Suffix = function(val) 
-			return val == 1 and 'stud' or 'studs' 
+			return val == 1 and '格' or '格' 
 		end
 	})
-	Open = ChestSteal:CreateToggle({Name = 'GUI Check'})
+	Open = ChestSteal:CreateToggle({Name = '检查GUI'})
 end)
 	
 run(function()
@@ -1473,17 +1473,17 @@ run(function()
 	end
 	
 	AutoBuy = vape.Categories.Inventory:CreateModule({
-		Name = 'AutoBuy',
+		Name = '自动购买',
 		Function = function(callback)
 			if callback then
 				AutoBuy:Clean(vapeEvents.CurrencyChange.Event:Connect(buyCheck))
 				buyCheck(table.clone(skywars.Store:getState().GameCurrency.Quantities))
 			end
 		end,
-		Tooltip = 'Automatically buys items when you go near the shop'
+		Tooltip = '靠近商店时自动购买物品'
 	})
 	Sword = AutoBuy:CreateToggle({
-		Name = 'Buy Sword',
+		Name = '购买剑',
 		Function = function(callback)
 			Functions[2] = callback and function(currencytable, shop, upgrades)
 				buyUpgrade(store.tools.sword and store.tools.sword.Name, skywars.Shop.Blacksmith.ItemUpgrades[2], currencytable)
@@ -1492,7 +1492,7 @@ run(function()
 		Default = true
 	})
 	Armor = AutoBuy:CreateToggle({
-		Name = 'Buy Armor',
+		Name = '购买盔甲',
 		Function = function(callback)
 			Functions[1] = callback and function(currencytable, shop, upgrades)
 				if lplr.Character then
@@ -1508,7 +1508,7 @@ run(function()
 		Default = true
 	})
 	Pickaxe = AutoBuy:CreateToggle({
-		Name = 'Buy Pickaxe',
+		Name = '购买镐',
 		Function = function(callback)
 			Functions[3] = callback and function(currencytable, shop, upgrades)
 				buyUpgrade(store.tools.pickaxe and store.tools.pickaxe.Name, skywars.Shop.Blacksmith.ItemUpgrades[3], currencytable)
@@ -1517,7 +1517,7 @@ run(function()
 		Default = true
 	})
 	Upgrades = AutoBuy:CreateToggle({
-		Name = 'Buy Upgrades',
+		Name = '购买升级',
 		Function = function(callback)
 			for i, v in UpgradeObjects do
 				v.Object.Visible = callback
@@ -1526,8 +1526,12 @@ run(function()
 		Default = true
 	})
 	for i, v in skywars.Shop.Merchant.TeamUpgrades do
+		local translatedName = v.Name
+		if v.Name == 'Generator' then translatedName = '发电机'
+		elseif v.Name == 'Vampyrism' then translatedName = '吸血'
+		end
 		table.insert(UpgradeObjects, AutoBuy:CreateToggle({
-			Name = 'Buy '..v.Name,
+			Name = '购买 '..translatedName,
 			Function = function(callback)
 				Functions[4 + i] = callback and function(currencytable, shop, upgrades)
 					buyTeamUpgrade(v, currencytable)
@@ -1551,7 +1555,7 @@ run(function()
 	end
 	
 	AutoConsume = vape.Categories.Inventory:CreateModule({
-		Name = 'AutoConsume',
+		Name = '自动消耗',
 		Function = function(callback)
 			if callback then
 				AutoConsume:Clean(vapeEvents.InventoryAmountChanged.Event:Connect(consumeCheck))
@@ -1559,7 +1563,7 @@ run(function()
 				consumeCheck()
 			end
 		end,
-		Tooltip = 'Automatically uses shield potions.'
+		Tooltip = '自动使用护盾药水。'
 	})
 end)
 	
@@ -1674,7 +1678,7 @@ run(function()
 	end
 	
 	Breaker = vape.Categories.Minigames:CreateModule({
-		Name = 'Breaker',
+		Name = '破蛋器',
 		Function = function(callback)
 			if callback then
 				local eggs = collection('egg', Breaker)
@@ -1713,15 +1717,15 @@ run(function()
 				until not Breaker.Enabled
 			end
 		end,
-		Tooltip = 'Automatically destroys eggs around you'
+		Tooltip = '自动摧毁你周围的蛋'
 	})
 	Range = Breaker:CreateSlider({
-		Name = 'Break range',
+		Name = '破坏范围',
 		Min = 1,
 		Max = 40,
 		Default = 40,
 		Suffix = function(val) 
-			return val == 1 and 'stud' or 'studs' 
+			return val == 1 and '格' or '格' 
 		end
 	})
 end)
@@ -1755,7 +1759,7 @@ run(function()
 	end
 	
 	Viewmodel = vape.Legit:CreateModule({
-		Name = 'Viewmodel',
+		Name = '视图模型',
 		Function = function(callback)
 			if callback then 
 				ViewmodelMotor = Instance.new('Motor6D')
@@ -1777,7 +1781,6 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = 'Replaces the default viewmodel'
+		Tooltip = '替换默认的视图模型'
 	})
 end)
-	
