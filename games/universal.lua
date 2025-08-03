@@ -14,7 +14,7 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/S-WTB/VapeV4/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -845,7 +845,7 @@ run(function()
 	end
 	
 	AimAssist = vape.Categories.Combat:CreateModule({
-		Name = 'AimAssist',
+		Name = '自动瞄准',
 		Function = function(callback)
 			if CircleObject then
 				CircleObject.Visible = callback
@@ -909,7 +909,7 @@ run(function()
 	})
 	Targets = AimAssist:CreateTargets({Players = true})
 	Part = AimAssist:CreateDropdown({
-		Name = 'Part',
+		Name = '部分',
 		List = {'RootPart', 'Head'}
 	})
 	FOV = AimAssist:CreateSlider({
@@ -924,7 +924,7 @@ run(function()
 		end
 	})
 	Speed = AimAssist:CreateSlider({
-		Name = 'Speed',
+		Name = '速度',
 		Min = 0,
 		Max = 30,
 		Default = 15
@@ -953,7 +953,7 @@ run(function()
 		end
 	})
 	CircleColor = AimAssist:CreateColorSlider({
-		Name = 'Circle Color',
+		Name = '圆颜色',
 		Function = function(hue, sat, val)
 			if CircleObject then
 				CircleObject.Color = Color3.fromHSV(hue, sat, val)
@@ -1006,7 +1006,7 @@ run(function()
 	local CPS
 	
 	AutoClicker = vape.Categories.Combat:CreateModule({
-		Name = 'AutoClicker',
+		Name = '自动点击器',
 		Function = function(callback)
 			if callback then
 				repeat
@@ -1054,7 +1054,7 @@ run(function()
 	local modified = {}
 	
 	Reach = vape.Categories.Combat:CreateModule({
-		Name = 'Reach',
+		Name = '达到',
 		Function = function(callback)
 			if callback then
 				repeat
