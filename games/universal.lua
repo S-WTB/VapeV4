@@ -6608,7 +6608,7 @@ run(function()
 				end))
 			end
 		end,
-		Tooltip = 'Automatically jumps after reaching the edge'
+		Tooltip = '到达边缘后自动跳跃'
 	})
 end)
 	
@@ -6651,7 +6651,7 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = 'Prevents you from walking off the edge of parts'
+		Tooltip = '防止您从部件边缘走下'
 	})
 end)
 	
@@ -6682,10 +6682,10 @@ run(function()
 				table.clear(modified)
 			end
 		end,
-		Tooltip = 'Renders whitelisted parts through walls.'
+		Tooltip = '透过墙壁渲染白名单中的部件。'
 	})
 	List = Xray:CreateTextList({
-		Name = '部分',
+		Name = '部件列表',
 		Function = function()
 			if Xray.Enabled then
 				Xray:Toggle()
@@ -6741,9 +6741,9 @@ run(function()
 				oldtargetable, oldgetcolor = entitylib.targetCheck, entitylib.getEntityColor
 				entitylib.getEntityColor = function(ent)
 					ent = ent.Player
-					if not (ent and vape.Categories.Main.Options['Use team color'].Enabled) then return end
+					if not (ent and vape.Categories.Main.Options['使用队伍颜色'].Enabled) then return end
 					if isFriend(ent, true) then
-						return Color3.fromHSV(vape.Categories.Friends.Options['Friends color'].Hue, vape.Categories.Friends.Options['Friends color'].Sat, vape.Categories.Friends.Options['Friends color'].Value)
+						return Color3.fromHSV(vape.Categories.Friends.Options['好友颜色'].Hue, vape.Categories.Friends.Options['好友颜色'].Sat, vape.Categories.Friends.Options['好友颜色'].Value)
 					end
 					return murderer == ent and Color3.new(1, 0.3, 0.3) or sheriff == ent and Color3.new(0, 0.5, 1) or nil
 				end
@@ -6763,7 +6763,7 @@ run(function()
 				entitylib.refresh()
 			end
 		end,
-		Tooltip = 'Automatic murder mystery teaming based on equipped roblox tools.'
+		Tooltip = '根据装备的Roblox工具自动进行谋杀之谜分组。'
 	})
 end)
 	
@@ -6829,7 +6829,7 @@ run(function()
 	end
 	
 	Atmosphere = vape.Legit:CreateModule({
-		Name = '气氛',
+		Name = '氛围',
 		Function = function(callback)
 			if callback then
 				for _, v in lightingService:GetChildren() do
@@ -6864,12 +6864,20 @@ run(function()
 				table.clear(oldobjects)
 			end
 		end,
-		Tooltip = 'Custom lighting objects'
+		Tooltip = '自定义光照对象'
 	})
 	for i, v in apidump do
 		Toggles[i] = {Objects = {}}
+		local translatedName = i
+		if i == 'Sky' then translatedName = '天空'
+		elseif i == 'Atmosphere' then translatedName = '大气'
+		elseif i == 'BloomEffect' then translatedName = '泛光效果'
+		elseif i == 'DepthOfFieldEffect' then translatedName = '景深效果'
+		elseif i == 'SunRaysEffect' then translatedName = '太阳光线效果'
+		elseif i == 'ColorCorrectionEffect' then translatedName = '色彩校正效果'
+		end
 		Toggles[i].Toggle = Atmosphere:CreateToggle({
-			Name = i,
+			Name = translatedName,
 			Function = function(callback)
 				if Atmosphere.Enabled then
 					Atmosphere:Toggle()
@@ -6882,9 +6890,41 @@ run(function()
 		})
 	
 		for i2, v2 in v do
+			local translatedName2 = i2
+			if i2 == 'SkyboxUp' then translatedName2 = '天空盒上'
+			elseif i2 == 'SkyboxDn' then translatedName2 = '天空盒下'
+			elseif i2 == 'SkyboxLf' then translatedName2 = '天空盒左'
+			elseif i2 == 'SkyboxRt' then translatedName2 = '天空盒右'
+			elseif i2 == 'SkyboxFt' then translatedName2 = '天空盒前'
+			elseif i2 == 'SkyboxBk' then translatedName2 = '天空盒后'
+			elseif i2 == 'SunTextureId' then translatedName2 = '太阳纹理ID'
+			elseif i2 == 'SunAngularSize' then translatedName2 = '太阳角大小'
+			elseif i2 == 'MoonTextureId' then translatedName2 = '月亮纹理ID'
+			elseif i2 == 'MoonAngularSize' then translatedName2 = '月亮角大小'
+			elseif i2 == 'StarCount' then translatedName2 = '星星数量'
+			elseif i2 == 'Color' then translatedName2 = '颜色'
+			elseif i2 == 'Decay' then translatedName2 = '衰减'
+			elseif i2 == 'Density' then translatedName2 = '密度'
+			elseif i2 == 'Offset' then translatedName2 = '偏移'
+			elseif i2 == 'Glare' then translatedName2 = '眩光'
+			elseif i2 == 'Haze' then translatedName2 = '雾霾'
+			elseif i2 == 'Intensity' then translatedName2 = '强度'
+			elseif i2 == 'Size' then translatedName2 = '大小'
+			elseif i2 == 'Threshold' then translatedName2 = '阈值'
+			elseif i2 == 'FarIntensity' then translatedName2 = '远景强度'
+			elseif i2 == 'FocusDistance' then translatedName2 = '对焦距离'
+			elseif i2 == 'InFocusRadius' then translatedName2 = '对焦半径'
+			elseif i2 == 'NearIntensity' then translatedName2 = '近景强度'
+			elseif i2 == 'Spread' then translatedName2 = '扩散'
+			elseif i2 == 'TintColor' then translatedName2 = '色调'
+			elseif i2 == 'Saturation' then translatedName2 = '饱和度'
+			elseif i2 == 'Contrast' then translatedName2 = '对比度'
+			elseif i2 == 'Brightness' then translatedName2 = '亮度'
+			end
+
 			if v2 == 'Text' or v2 == 'Number' then
 				Toggles[i].Objects[i2] = Atmosphere:CreateTextBox({
-					Name = i2,
+					Name = translatedName2,
 					Function = function(enter)
 						if Atmosphere.Enabled and enter then
 							Atmosphere:Toggle()
@@ -6897,7 +6937,7 @@ run(function()
 				})
 			elseif v2 == 'Color' then
 				Toggles[i].Objects[i2] = Atmosphere:CreateColorSlider({
-					Name = i2,
+					Name = translatedName2,
 					Function = function()
 						if Atmosphere.Enabled then
 							Atmosphere:Toggle()
@@ -6922,7 +6962,7 @@ run(function()
 	local trail, point, point2
 	
 	Breadcrumbs = vape.Legit:CreateModule({
-		Name = '面包屑',
+		Name = '路径痕迹',
 		Function = function(callback)
 			if callback then
 				point = Instance.new('Attachment')
@@ -6957,11 +6997,11 @@ run(function()
 				point2 = nil
 			end
 		end,
-		Tooltip = 'Shows a trail behind your character'
+		Tooltip = '在你的角色后面显示一条轨迹'
 	})
 	Texture = Breadcrumbs:CreateTextBox({
 		Name = '纹理',
-		Placeholder = 'Texture Id',
+		Placeholder = '纹理ID',
 		Function = function(enter)
 			if enter and trail then
 				trail.Texture = Texture.Value == '' and 'http://www.roblox.com/asset/?id=14166981368' or Texture.Value
@@ -6969,7 +7009,7 @@ run(function()
 		end
 	})
 	FadeIn = Breadcrumbs:CreateColorSlider({
-		Name = '淡入',
+		Name = '渐显颜色',
 		Function = function(hue, sat, val)
 			if trail then
 				trail.Color = ColorSequence.new(Color3.fromHSV(hue, sat, val), Color3.fromHSV(FadeOut.Hue, FadeOut.Sat, FadeOut.Value))
@@ -6977,7 +7017,7 @@ run(function()
 		end
 	})
 	FadeOut = Breadcrumbs:CreateColorSlider({
-		Name = '淡出',
+		Name = '渐隐颜色',
 		Function = function(hue, sat, val)
 			if trail then
 				trail.Color = ColorSequence.new(Color3.fromHSV(FadeIn.Hue, FadeIn.Sat, FadeIn.Value), Color3.fromHSV(hue, sat, val))
@@ -6985,7 +7025,7 @@ run(function()
 		end
 	})
 	Lifetime = Breadcrumbs:CreateSlider({
-		Name = '一生',
+		Name = '持续时间',
 		Min = 1,
 		Max = 5,
 		Default = 3,
@@ -6996,11 +7036,11 @@ run(function()
 			end
 		end,
 		Suffix = function(val)
-			return val == 1 and 'second' or 'seconds'
+			return val == 1 and '秒' or '秒'
 		end
 	})
 	Thickness = Breadcrumbs:CreateSlider({
-		Name = '厚度',
+		Name = '粗细',
 		Min = 0,
 		Max = 2,
 		Default = 0.1,
@@ -7014,7 +7054,7 @@ run(function()
 			end
 		end,
 		Suffix = function(val)
-			return val == 1 and 'stud' or 'studs'
+			return val == 1 and '格' or '格'
 		end
 	})
 end)
@@ -7039,7 +7079,7 @@ run(function()
 	end
 	
 	Cape = vape.Legit:CreateModule({
-		Name = 'Cape',
+		Name = '披风',
 		Function = function(callback)
 			if callback then
 				part = Instance.new('Part')
@@ -7092,7 +7132,7 @@ run(function()
 				motor = nil
 			end
 		end,
-		Tooltip = '添加\'s 你的角色的斗篷'
+		Tooltip = '为你的角色添加一个披风'
 	})
 	Texture = Cape:CreateTextBox({
 		Name = '纹理'
@@ -7106,7 +7146,7 @@ run(function()
 	local hat
 	
 	ChinaHat = vape.Legit:CreateModule({
-		Name = '中国帽',
+		Name = '斗笠',
 		Function = function(callback)
 			if callback then
 				if vape.ThreadFix then
@@ -7150,7 +7190,7 @@ run(function()
 				hat = nil
 			end
 		end,
-		Tooltip = 'Puts a china hat on your character (ty mastadawn)'
+		Tooltip = '在你的角色上戴一顶斗笠（感谢 mastadawn）'
 	})
 	local materials = {'ForceField'}
 	for _, v in Enum.Material:GetEnumItems() do
@@ -7159,7 +7199,7 @@ run(function()
 		end
 	end
 	Material = ChinaHat:CreateDropdown({
-		Name = '材料',
+		Name = '材质',
 		List = materials,
 		Function = function(val)
 			if hat then
@@ -7195,7 +7235,7 @@ run(function()
 			end
 		end,
 		Size = UDim2.fromOffset(100, 41),
-		Tooltip = 'Shows the current local time'
+		Tooltip = '显示当前本地时间'
 	})
 	Clock:CreateFont({
 		Name = '字体',
@@ -7362,7 +7402,7 @@ run(function()
 					end
 				end
 			else
-				notif('Disguise', 'that\'s not an animation pack', 5, 'warning')
+				notif('伪装', '那不是一个动画包', 5, 'warning')
 			end
 		end
 	end
@@ -7377,11 +7417,11 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = '将角色或动画更改为特定ID(动画包或用户ID)\'s 只有)'
+		Tooltip = '将角色或动画更改为指定的ID（仅限动画包或用户ID）'
 	})
 	Mode = Disguise:CreateDropdown({
 		Name = '模式',
-		List = {'性格', '动画'},
+		List = {'角色', '动画'},
 		Function = function()
 			if Disguise.Enabled then
 				Disguise:Toggle()
@@ -7390,8 +7430,8 @@ run(function()
 		end
 	})
 	IDBox = Disguise:CreateTextBox({
-		Name = '伪装',
-		Placeholder = '伪装用户ID',
+		Name = '伪装ID',
+		Placeholder = '用户ID或动画包ID',
 		Function = function()
 			if Disguise.Enabled then
 				Disguise:Toggle()
@@ -7407,7 +7447,7 @@ run(function()
 	local oldfov
 	
 	FOV = vape.Legit:CreateModule({
-		Name = 'FOV',
+		Name = '视野',
 		Function = function(callback)
 			if callback then
 				oldfov = gameCamera.FieldOfView
@@ -7419,10 +7459,10 @@ run(function()
 				gameCamera.FieldOfView = oldfov
 			end
 		end,
-		Tooltip = 'Adjusts camera vision'
+		Tooltip = '调整相机视野'
 	})
 	Value = FOV:CreateSlider({
-		Name = 'FOV',
+		Name = '视野',
 		Min = 30,
 		Max = 120
 	})
@@ -7437,7 +7477,7 @@ run(function()
 	local label
 	
 	FPS = vape.Legit:CreateModule({
-		Name = 'FPS',
+		Name = '帧率',
 		Function = function(callback)
 			if callback then
 				local frames = {}
@@ -7457,7 +7497,7 @@ run(function()
 			end
 		end,
 		Size = UDim2.fromOffset(100, 41),
-		Tooltip = 'Shows the current framerate'
+		Tooltip = '显示当前帧率'
 	})
 	FPS:CreateFont({
 		Name = '字体',
@@ -7480,7 +7520,7 @@ run(function()
 	label.BackgroundTransparency = 0.5
 	label.TextSize = 15
 	label.Font = Enum.Font.Gotham
-	label.Text = 'inf FPS'
+	label.Text = '... FPS'
 	label.TextColor3 = Color3.new(1, 1, 1)
 	label.BackgroundColor3 = Color3.new()
 	label.Parent = FPS.Children
@@ -7525,7 +7565,7 @@ run(function()
 	end
 	
 	Keystrokes = vape.Legit:CreateModule({
-		Name = '击键',
+		Name = '按键显示',
 		Function = function(callback)
 			if callback then
 				createKeystroke(Enum.KeyCode.W, UDim2.new(0, 38, 0, 0), UDim2.new(0, 6, 0, 5), Style.Value == 'Arrow' and '↑' or nil)
@@ -7581,15 +7621,15 @@ run(function()
 			end
 		end,
 		Size = UDim2.fromOffset(110, 176),
-		Tooltip = 'Shows movement keys onscreen'
+		Tooltip = '在屏幕上显示移动按键'
 	})
 	holder = Instance.new('Frame')
 	holder.Size = UDim2.fromScale(1, 1)
 	holder.BackgroundTransparency = 1
 	holder.Parent = Keystrokes.Children
 	Style = Keystrokes:CreateDropdown({
-		Name = '索引键样式',
-		List = {'Keyboard', 'Arrow'},
+		Name = '按键样式',
+		List = {'字母', '箭头'},
 		Function = function()
 			if Keystrokes.Enabled then
 				Keystrokes:Toggle()
@@ -7630,7 +7670,7 @@ run(function()
 	local label
 	
 	Memory = vape.Legit:CreateModule({
-		Name = '记忆',
+		Name = '内存占用',
 		Function = function(callback)
 			if callback then
 				repeat
@@ -7640,7 +7680,7 @@ run(function()
 			end
 		end,
 		Size = UDim2.fromOffset(100, 41),
-		Tooltip = 'A label showing the memory currently used by roblox'
+		Tooltip = '显示Roblox当前使用的内存'
 	})
 	Memory:CreateFont({
 		Name = '字体',
@@ -7677,7 +7717,7 @@ run(function()
 	local label
 	
 	Ping = vape.Legit:CreateModule({
-		Name = 'Ping',
+		Name = '延迟',
 		Function = function(callback)
 			if callback then
 				repeat
@@ -7687,7 +7727,7 @@ run(function()
 			end
 		end,
 		Size = UDim2.fromOffset(100, 41),
-		Tooltip = 'Shows the current connection speed to the roblox server'
+		Tooltip = '显示到Roblox服务器的当前连接速度'
 	})
 	Ping:CreateFont({
 		Name = '字体',
@@ -7736,7 +7776,7 @@ run(function()
 		end
 	
 		if #list <= 0 then
-			notif('SongBeats', 'no songs', 10)
+			notif('歌曲节拍', '没有歌曲', 10)
 			SongBeats:Toggle()
 			return
 		end
@@ -7752,7 +7792,7 @@ run(function()
 	
 		local split = chosensong:split('/')
 		if not isfile(split[1]) then
-			notif('SongBeats', 'Missing song ('..split[1]..')', 10)
+			notif('歌曲节拍', '缺少歌曲 ('..split[1]..')', 10)
 			SongBeats:Toggle()
 			return
 		end
@@ -7802,14 +7842,14 @@ run(function()
 				table.clear(alreadypicked)
 			end
 		end,
-		Tooltip = 'Built in mp3 player'
+		Tooltip = '内置MP3播放器'
 	})
 	List = SongBeats:CreateTextList({
-		Name = '歌曲',
-		Placeholder = 'filepath/bpm/start'
+		Name = '歌曲列表',
+		Placeholder = '文件路径/BPM/起始时间'
 	})
 	FOV = SongBeats:CreateToggle({
-		Name = '击败 FOV',
+		Name = '节拍视野',
 		Function = function(callback)
 			if FOVValue.Object then
 				FOVValue.Object.Visible = callback
@@ -7822,14 +7862,14 @@ run(function()
 		Default = true
 	})
 	FOVValue = SongBeats:CreateSlider({
-		Name = '调整',
+		Name = '调整值',
 		Min = 1,
 		Max = 30,
 		Default = 5,
 		Darker = true
 	})
 	Volume = SongBeats:CreateSlider({
-		Name = '体积',
+		Name = '音量',
 		Function = function(val)
 			if songobj then
 				songobj.Volume = val / 100
@@ -7854,12 +7894,12 @@ run(function()
 					local lastpos = entitylib.isAlive and entitylib.character.HumanoidRootPart.Position * Vector3.new(1, 0, 1) or Vector3.zero
 					local dt = task.wait(0.2)
 					local newpos = entitylib.isAlive and entitylib.character.HumanoidRootPart.Position * Vector3.new(1, 0, 1) or Vector3.zero
-					label.Text = math.round(((lastpos - newpos) / dt).Magnitude)..' sps'
+					label.Text = math.round(((lastpos - newpos) / dt).Magnitude)..' 格/秒'
 				until not Speedmeter.Enabled
 			end
 		end,
 		Size = UDim2.fromOffset(100, 41),
-		Tooltip = 'A label showing the average velocity in studs'
+		Tooltip = '显示以“格”为单位的平均速度'
 	})
 	Speedmeter:CreateFont({
 		Name = '字体',
@@ -7882,7 +7922,7 @@ run(function()
 	label.BackgroundTransparency = 0.5
 	label.TextSize = 15
 	label.Font = Enum.Font.Gotham
-	label.Text = '0 sps'
+	label.Text = '0 格/秒'
 	label.TextColor3 = Color3.new(1, 1, 1)
 	label.BackgroundColor3 = Color3.new()
 	label.Parent = Speedmeter.Children
@@ -7897,7 +7937,7 @@ run(function()
 	local old
 	
 	TimeChanger = vape.Legit:CreateModule({
-		Name = '时间变换器',
+		Name = '时间修改器',
 		Function = function(callback)
 			if callback then
 				old = lightingService.TimeOfDay
@@ -7907,7 +7947,7 @@ run(function()
 				old = nil
 			end
 		end,
-		Tooltip = 'Change the time of the current world'
+		Tooltip = '更改当前世界的时间'
 	})
 	Value = TimeChanger:CreateSlider({
 		Name = '时间',
@@ -7922,4 +7962,3 @@ run(function()
 	})
 	
 end)
-	
